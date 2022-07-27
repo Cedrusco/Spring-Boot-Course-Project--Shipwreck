@@ -1,9 +1,12 @@
 package com.projectG2.ProjectMaven1.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +32,8 @@ public class ShipwreckController {
     //first endpoint is GET
     @RequestMapping(value="shipwrecks", method= RequestMethod.GET)
     public List<Shipwreck> list(){
-        return ShipwreckStub.list();
+        //return ShipwreckStub.list();
+    	return shipwreckRepository.findAll();
      }
 
      // the other endpoints are POST, GET, PUT, DELETE
@@ -42,9 +46,11 @@ public class ShipwreckController {
      * @param shipwreck
      * @return
      */
-     @RequestMapping(value="shipwrecks", method= RequestMethod.POST)
+     @RequestMapping(value="shipwrecks", method=RequestMethod.GET)
      public Shipwreck create(@RequestBody Shipwreck shipwreck){
-         return ShipwreckStub.create(shipwreck);
+         //return ShipwreckStub.create(shipwreck);
+    	 return shipwreckRepository.saveAndFlush(shipwreck);
+    	 //we are taking the shipwreck object passed in from the browser and save it and return the saved copy
      }
 
     /**
@@ -52,9 +58,13 @@ public class ShipwreckController {
      * @param id
      * @return
      */
-    @RequestMapping(value="shipwrecks/{id}", method= RequestMethod.GET)
-    public Shipwreck get(@PathVariable Long id){
-        return ShipwreckStub.get(id);
+	@RequestMapping(value="shipwrecks/{id}", method= RequestMethod.GET)
+    public Optional<Shipwreck> get(@PathVariable Long id){
+        //return ShipwreckStub.get(id);
+    	//The GET method will now use the shipwreckRepository defined by id, and return that Shipwreck.
+    	     //return shipwreckRepository.findOne(id); 
+    	//findOne isn't working with Long or int, so:
+    	return shipwreckRepository.findById(id);
     }
 
     /**
@@ -65,7 +75,12 @@ public class ShipwreckController {
      */
     @RequestMapping(value="shipwrecks/{id}", method= RequestMethod.PUT)
     public Shipwreck update(@PathVariable Long id, @RequestBody Shipwreck shipwreck){
-        return ShipwreckStub.update(id, shipwreck);
+        //return ShipwreckStub.update(id, shipwreck);
+    	//The update method is a little more involved since we need to pull the existing shipwreck
+    	  //and copy the updated attributes into it and then resave the object.
+		Shipwreck existingShipwreck = shipwreckRepository.getOne(id);
+    	BeanUtils.copyProperties(shipwreck, existingShipwreck);
+    	return shipwreckRepository.saveAndFlush(existingShipwreck);
     }
 
     /**
@@ -75,6 +90,16 @@ public class ShipwreckController {
      */
     @RequestMapping(value="shipwrecks/{id}", method= RequestMethod.DELETE)
     public Shipwreck delete(@PathVariable Long id){
-        return ShipwreckStub.delete(id);
+        //return ShipwreckStub.delete(id);
+    	// look up the object, delete it, and return the existing one. We could make this simpler
+    	  //by actually just passing in the id and returning void, we could delete the object without 
+    	  //actually having to look it up and load it, but since our controller is already providing 
+    	  //the shipwreck that was deleted on return, this is the logic that I've chosen to use to implement
+    	  //this method. 
+    	@SuppressWarnings("deprecation")
+		Shipwreck existingShipwreck = shipwreckRepository.getOne(id);
+    	shipwreckRepository.delete(existingShipwreck);
+    	return existingShipwreck;
     }
+    
 }
