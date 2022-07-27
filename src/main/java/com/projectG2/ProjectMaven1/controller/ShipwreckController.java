@@ -59,12 +59,12 @@ public class ShipwreckController {
      * @return
      */
 	@RequestMapping(value="shipwrecks/{id}", method= RequestMethod.GET)
-    public Optional<Shipwreck> get(@PathVariable Long id){
+    public Shipwreck get(@PathVariable Long id){
         //return ShipwreckStub.get(id);
     	//The GET method will now use the shipwreckRepository defined by id, and return that Shipwreck.
     	     //return shipwreckRepository.findOne(id); 
     	//findOne isn't working with Long or int, so:
-    	return shipwreckRepository.findById(id);
+    	return shipwreckRepository.getOne(id);
     }
 
     /**
