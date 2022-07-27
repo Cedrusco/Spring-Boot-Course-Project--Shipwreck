@@ -4,6 +4,6 @@ Course project from https://app.pluralsight.com/library/courses/b688060f-7e50-43
 
 
 Starting the project: <br>
-1- Clone the repository on your local machine
-2- Open the project folder using Intellij IDEA or Eclipse IDE, and press on run.
-3- On your browser, navigate to http://localhost:8080/index.html
+1- Clone the repository on your local machine <br>
+2- Open the project folder using Intellij IDEA or Eclipse IDE, and press on run. <br>
+3- On your browser, navigate to http://localhost:8080/index.html <br>
