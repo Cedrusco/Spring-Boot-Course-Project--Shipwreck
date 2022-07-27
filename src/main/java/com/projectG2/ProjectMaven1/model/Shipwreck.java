@@ -1,5 +1,12 @@
 package com.projectG2.ProjectMaven1.model;
 
+import javax.persistence.Entity;
+
+
+//So even though we were using this as a DTO object in the past, or essentially just a transfer object, 
+  //I'm going to go ahead and convert this into an actual JPA entity, so the first thing I need to do is 
+  //simply add that annotation at the top, which is called @Entity.
+@Entity
 public class Shipwreck {
 	Long id;
 	String name;
