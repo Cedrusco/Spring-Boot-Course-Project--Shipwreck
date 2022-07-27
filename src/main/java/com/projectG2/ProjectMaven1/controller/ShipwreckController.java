@@ -2,15 +2,27 @@ package com.projectG2.ProjectMaven1.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.projectG2.ProjectMaven1.model.Shipwreck;
+import com.projectG2.ProjectMaven1.repository.ShipwreckRepository;
 
 // in this file, angular is communicating with spring boot mvc via our spring boot app.
 
 @RestController //first annotation
 @RequestMapping("api/v1/") //second annotation. "api/v1/" specifies the base URL that all end points will contain for this class. All end points in the angular app will start with api/v1/. so setting "api/v1/" in the class annotation will set that piece of the endpoint for us
 public class ShipwreckController {
+	
+	// inject the newly-created ShipwreckRepository at the top of the ShipwreckController class
+	  //by auto-wiring it in and defining the interface
+	@Autowired
+	private ShipwreckRepository shipwreckRepository;
+	
     //now we add a list endpoint
     //RequestMapping says that it will accept a GET request to the API v1/shipwrecks endpoint, the method-level RequestMapping
     // annotation appends its value to the class value annotation.

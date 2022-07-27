@@ -1,13 +1,27 @@
 package com.projectG2.ProjectMaven1.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 //So even though we were using this as a DTO object in the past, or essentially just a transfer object, 
   //I'm going to go ahead and convert this into an actual JPA entity, so the first thing I need to do is 
   //simply add that annotation at the top, which is called @Entity.
+// next, I need to tell JPA what attribute of this class is the primary key, and how the primary
+  //key gets generated. So above the Long id I'm going to go ahead and just add the @Id and 
+  //the @GeneratedValue annotation. The generated value is saying that the database is going to go
+  //ahead and take care of incrementing our primary key value for us, so we don't need to pass in a 
+  //sequence value, or some other way of generating the primary key. We'll just rely on the database engine
+  //for that.
+// There's a lot of other JPA entity information that we could add, but since we created our Shipwreck 
+  //table to kind of match these attributes, I don't really need to add the @ column, or any of the other 
+  //data associated with that because the table matches our Java object pretty clearly. 
 @Entity
 public class Shipwreck {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	String name;
 	String description;
