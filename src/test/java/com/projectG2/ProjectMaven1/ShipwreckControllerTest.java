@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
@@ -54,7 +57,9 @@ public class ShipwreckControllerTest {
 		Shipwreck wreck = sc.get(1L);
 		verify(shipwreckRepository).getOne(1l); //The other cool feature Mockito gives you is the ability to verify that your mocked or stubbed method calls are actually used during the testing of the code.  I can place a verify to check that this stubbed getOne method was actually called.  If for some reason the controller called the findOne method on the repository twice, the test would fail and you could figure out why the method was called twice and fix the issue.
 		
-		assertEquals(1l, wreck.getId().longValue());
+		//assertEquals(1l, wreck.getId().longValue()); //test to see if the ID matches 1.
+		assertEquals(wreck.getId(), is(1l)); //using hamcrest //comment this line and uncomment the line above to use Mockito
+		
 	}
 	
 	// Above, I've created a new Shipwreck object, and set the Id to 1. The when method call allows us to provide the actual 
